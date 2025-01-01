@@ -1,10 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Upload, X } from 'lucide-react';
+import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 
-const FileUpload = ({ onFileSelect }) => {
+const FileUpload = ({ onFileSelect, setup }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [file, setFile] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
+
+    // Reset state when setup changes
+    useEffect(() => {
+        setFile(null);
+        setUploadProgress(0);
+        setIsDragging(false);
+    }, [setup]);
+
+    //Below 3 consecutive functions provides functionalities to drag $ drop the files
 
     const handleDragEnter = useCallback((e) => {
         e.preventDefault();
@@ -26,20 +37,75 @@ const FileUpload = ({ onFileSelect }) => {
         const droppedFile = e.dataTransfer.files[0];
         if (droppedFile) {
             setFile(droppedFile);
-            onFileSelect(droppedFile);
+            processFile(droppedFile);
             simulateUpload();
         }
-    }, [onFileSelect]);
+    }, []);
+
+    //Function for manual file selection
 
     const handleFileSelect = useCallback((e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
             setFile(selectedFile);
-            onFileSelect(selectedFile);
+            processFile(selectedFile);
             simulateUpload();
         }
-    }, [onFileSelect]);
+    }, []);
 
+
+    const processFile = (file) => {
+        const fileType = file.type;
+
+        if (fileType === 'text/csv') {
+            processCsv(file);
+        } else if (
+            fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            fileType === 'application/vnd.ms-excel'
+        ) {
+            processExcel(file);
+        } else {
+            alert('Invalid file type. Please upload a CSV or Excel file.');
+        }
+    };
+
+    //Function to convert the CSV file to JSON format and return data in JSON format.
+    const processCsv = (file) => {
+        Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (result) => {
+                onFileSelect(result.data);
+            },
+            error: (error) => {
+                console.error('Error parsing CSV:', error);
+            },
+        });
+    };
+
+    //Function to convert the Excel file to JSON format and return data in JSON format. 
+    const processExcel = (file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+
+            const jsonData = XLSX.utils.sheet_to_json(sheet);
+            onFileSelect(jsonData);
+        };
+
+        reader.onerror = (error) => {
+            console.error('Error reading Excel file:', error);
+        };
+
+        reader.readAsArrayBuffer(file);
+    };
+
+
+    //Mock Loader
     const simulateUpload = () => {
         setUploadProgress(0);
         const interval = setInterval(() => {
@@ -53,6 +119,7 @@ const FileUpload = ({ onFileSelect }) => {
         }, 300);
     };
 
+    //Remove file to upload a different file or exchange the file
     const removeFile = useCallback(() => {
         setFile(null);
         setUploadProgress(0);
@@ -71,7 +138,7 @@ const FileUpload = ({ onFileSelect }) => {
                 <div className="flex flex-col items-center justify-center text-center">
                     <Upload className="w-12 h-12 text-gray-400 mb-4" />
                     <p className="text-gray-600 mb-2">
-                        Drag and drop your student CSV file into the box below
+                        Drag and drop your {setup} CSV or Excel file into the box below
                     </p>
                     <p className="text-gray-500 mb-4">OR</p>
                     <label className="bg-[#305196] text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-[#1f2857] transition-colors">
@@ -85,7 +152,8 @@ const FileUpload = ({ onFileSelect }) => {
                     </label>
                 </div>
             </div>
-
+            
+            {/* Mock Loader */}
             {file && (
                 <div className="mt-4">
                     <div className="flex items-center justify-between bg-gray-100 p-3 rounded-lg">
@@ -106,7 +174,7 @@ const FileUpload = ({ onFileSelect }) => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default FileUpload
+export default FileUpload;
