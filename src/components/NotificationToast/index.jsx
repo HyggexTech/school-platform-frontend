@@ -18,7 +18,7 @@ const CustomToaster = () => {
                 removeDelay: 1000,
                 className: 'custom-toast',
                 style: {
-                    background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', // Gradient background
+                    background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', 
                     color: '#fff',
                     borderRadius: '8px',
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
@@ -30,7 +30,7 @@ const CustomToaster = () => {
                 success: {
                     duration: 4000,
                     style: {
-                        background: 'linear-gradient(135deg, #22c55e, #16a34a)', // Green gradient
+                        background: 'linear-gradient(135deg, #22c55e, #16a34a)', 
                         color: '#fff',
                         border: '1px solid #16a34a',
                         fontWeight: 'bold',
@@ -45,7 +45,7 @@ const CustomToaster = () => {
                 error: {
                     duration: 4000,
                     style: {
-                        background: 'linear-gradient(135deg, #ef4444, #b91c1c)', // Red gradient
+                        background: 'linear-gradient(135deg, #ef4444, #b91c1c)', 
                         color: '#fff',
                         border: '1px solid #b91c1c',
                         fontWeight: 'bold',

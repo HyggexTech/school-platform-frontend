@@ -10,9 +10,9 @@ function App() {
 
 
   return (
-    <div className= 'overflow-x-hidden max-w-[1680px] mx-auto'>
+    <div className='overflow-x-hidden max-w-[1680px] mx-auto'>
       <CustomToaster />
-     <RouterProvider router={AppRoutes} />
+      <RouterProvider router={AppRoutes} />
     </div>
   )
 }

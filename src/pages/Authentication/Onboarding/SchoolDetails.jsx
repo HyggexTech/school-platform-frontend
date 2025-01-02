@@ -1,8 +1,24 @@
 import OnboardingLayout from '@/layouts/onboarding'
-import React from 'react'
+import React, { useState } from 'react'
 import School from '@/assets/images/Authentication/Schoolimage.webp'
+import { useDispatch } from 'react-redux'
+import { setSchoolDetails } from '@/store/Slices/authSlice'
+import toast from 'react-hot-toast'
 
-const SchoolDetails = () => {
+const SchoolDetails = ({nextPage}) => {
+    const dispatch = useDispatch()
+    const [name,setName] = useState('')
+    const [address,setAddress] = useState('')
+    
+    const submitSchoolDetails = ()=>{
+        if(name !=='' && address !== ''){
+            dispatch(setSchoolDetails({name,address}))
+            nextPage()
+        } else {
+            toast.error('NAME OR ADDRESS IS MISSING')
+        }
+    }
+
     return (
         <OnboardingLayout
             leftchildren={
@@ -23,7 +39,7 @@ const SchoolDetails = () => {
                         type="text"
                     />
                     <div className='w-full mt-28'>
-                        <button className='text-base bg-[#1D5AD5] text-white py-3 px-4 rounded-xl'>Continue</button>
+                        <button onClick={submitSchoolDetails} className='text-base bg-[#1D5AD5] text-white py-3 px-4 rounded-xl'>Continue</button>
                     </div>
                 </div>
             }

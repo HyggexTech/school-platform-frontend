@@ -2,12 +2,33 @@ import OnboardingLayout from '@/layouts/onboarding'
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react';
 import SignUpPhoto from '@/assets/images/Authentication/Signupphoto.webp'
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '@/store/Slices/authSlice';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
+    const dispatch = useDispatch()
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const finishSignUp = () => {
+        if(email !== '' && password !== ''){
+            dispatch(setCredentials({
+                email,
+                password
+            }))
+            // API CALL TO FINISH THE SIGN UP PROCESS AND REGISTER THE SCHOOL
+        }
+        else {
+            toast.error("EMAIL OR PASSWORD IS MISSING")
+        }
+    }
+       
+    
     return (
         <OnboardingLayout
             leftchildren={
@@ -18,6 +39,9 @@ const Signup = () => {
                     </p>
                     <p className='mt-4 text-sm text-[#305196] font-medium'>Please provide your email address</p>
                     <input
+                        onChange={(e)=>{
+                            setEmail(e.target.value)
+                        }}
                         className="outline-none border border-gray-300 p-2 my-2 shadow-[3px_3px_4px_2px_rgba(0,0,0,0.03)] placeholder:text-sm"
                         placeholder="Enter your email"
                         type="text"
@@ -25,6 +49,9 @@ const Signup = () => {
                     <p className='mt-4 text-sm text-[#305196] font-medium'>Create a password to secure your account</p>
                     <div className="relative w-full mt-2">
                         <input
+                            onChange={(e)=>{
+                                setPassword(e.target.value)
+                            }}
                             id="password"
                             className="outline-none border border-gray-300 px-2 py-2 rounded-md placeholder:text-xs w-full pr-10"
                             placeholder="Enter your password"

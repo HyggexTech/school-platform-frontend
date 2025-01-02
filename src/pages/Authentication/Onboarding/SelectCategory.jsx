@@ -1,15 +1,28 @@
 import OnboardingLayout from '@/layouts/onboarding'
-import React from 'react'
+import React, { useState } from 'react'
 import Students from '@/assets/images/Authentication/Studentgroup.webp'
 import { ChevronDown } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { setSchoolCategory } from '@/store/Slices/authSlice';
+import toast from 'react-hot-toast';
 
-const SelectCategory = () => {
+const SelectCategory = (nextPage) => {
+    const dispatch = useDispatch()
+    const [categoryValue,setCategoryValue] = useState('')
     const categories = [
         '0-100',
         '101-500',
         '501-1000',
         '1001-1500'
     ]
+    const submitSchoolCategory = () => {
+        if(categoryValue !== ''){
+            dispatch(setSchoolCategory(categoryValue))
+            nextPage()
+        }else {
+            toast.error("PLEASE SELECT THE CATEGORY")
+        }
+    }
     return (
         <OnboardingLayout
             leftchildren={
@@ -20,7 +33,10 @@ const SelectCategory = () => {
                     </p>
                     {/* These categories will decide the price tier for the organisation */}
                     <div className="relative w-[343px] mt-4">
-                        <select
+                        <select 
+                            onChange={(e)=>{
+                                setCategoryValue(e.target.value)
+                            }}
                             name="language"
                             id="language-select"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 text-[16px] focus:outline-none focus:ring-2 focus:ring-[#305196] focus:border-[#305196] appearance-none"
@@ -41,7 +57,7 @@ const SelectCategory = () => {
                     </div>
                     
                     <div className='w-full mt-28'>
-                        <button className='text-base bg-[#1D5AD5] text-white py-3 px-4 rounded-xl'>Continue</button>
+                        <button onClick={submitSchoolCategory} className='text-base bg-[#1D5AD5] text-white py-3 px-4 rounded-xl'>Continue</button>
                     </div>
                 </div>
             }
