@@ -3,10 +3,8 @@ import React from 'react'
 import QuestionMark from '@/assets/icons/Authentication/questionmark.svg'
 const OnboardingLayout = ({ leftchildren, rightchildren, percentage }) => {
     return (
-        <div className="min-h-screen w-full flex flex-col">
-            <Navbar1 />
-            <div className={`h-3 w-[${percentage}%] bg-[#305196]`}></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 w-full flex-1">
+        <div className='h-full'>
+            <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full ">
                 {/* Left Section */}
                 <div className="w-full h-full flex flex-col items-center justify-center">
                     {leftchildren}

@@ -23,9 +23,9 @@ const authSlice = createSlice({
         setSchoolCategory : (state,action) => {
             state.schoolCategory = action.payload
         },
-        setCredentials : (state,action) => {
-            state.schoolEmail = action.payload.email,
-            state.schoolPassword = action.payload.password
+        setCredentials: (state, action) => {
+            state.schoolEmail = action.payload.email;
+            state.schoolPassword = action.payload.password;
         }
     }
 })

@@ -2,33 +2,36 @@ import OnboardingLayout from '@/layouts/onboarding'
 import React, { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react';
 import SignUpPhoto from '@/assets/images/Authentication/Signupphoto.webp'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials } from '@/store/Slices/authSlice';
 import toast from 'react-hot-toast';
 
 const Signup = () => {
     const dispatch = useDispatch()
-    const [email,setEmail] = useState('')
-    const [password,setPassword] = useState('')
+    const authState = useSelector((state) => state.authentication);
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
+    
     const finishSignUp = () => {
-        if(email !== '' && password !== ''){
-            dispatch(setCredentials({
-                email,
-                password
-            }))
+        console.log("ITS PRESSED");
+        
+        if (email !== '' && password !== '') {
+            dispatch(setCredentials({ email, password }))
+            console.log('Updated Auth State:', authState);
             // API CALL TO FINISH THE SIGN UP PROCESS AND REGISTER THE SCHOOL
         }
         else {
             toast.error("EMAIL OR PASSWORD IS MISSING")
         }
     }
-       
-    
+
+
     return (
         <OnboardingLayout
             leftchildren={
@@ -39,7 +42,7 @@ const Signup = () => {
                     </p>
                     <p className='mt-4 text-sm text-[#305196] font-medium'>Please provide your email address</p>
                     <input
-                        onChange={(e)=>{
+                        onChange={(e) => {
                             setEmail(e.target.value)
                         }}
                         className="outline-none border border-gray-300 p-2 my-2 shadow-[3px_3px_4px_2px_rgba(0,0,0,0.03)] placeholder:text-sm"
@@ -49,7 +52,7 @@ const Signup = () => {
                     <p className='mt-4 text-sm text-[#305196] font-medium'>Create a password to secure your account</p>
                     <div className="relative w-full mt-2">
                         <input
-                            onChange={(e)=>{
+                            onChange={(e) => {
                                 setPassword(e.target.value)
                             }}
                             id="password"
@@ -75,9 +78,9 @@ const Signup = () => {
                         <p className='text-center text-[10px] text-[#7E7E7E] font-medium'>
                             Keep your password confidential and do not share it with others.</p>
                     </div>
-                    
+
                     <div className='w-full mt-20'>
-                        <button className='text-base bg-[#1D5AD5] text-white py-3 px-8 rounded-xl'>Finish</button>
+                        <button onClick={finishSignUp} className='text-base bg-[#1D5AD5] text-white py-3 px-8 rounded-xl'>Finish</button>
                     </div>
                 </div>
             }

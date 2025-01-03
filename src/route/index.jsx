@@ -28,22 +28,6 @@ export const AppRoutes = createBrowserRouter([
         element : <Onboarding />
     },
     {
-        path : '/select-language',
-        element : <SelectLanguage />
-    },
-    {
-        path : '/school-details',
-        element : <SchoolDetails />
-    }, 
-    {
-        path : '/select-category',
-        element : <SelectCategory />
-    },
-    {
-        path: '/signup',
-        element: <Signup />
-    },
-    {
         path : '/welcome',
         element : <WelcomeProcess />
     },

@@ -6,35 +6,30 @@ import { useDispatch } from 'react-redux';
 import { setSchoolCategory } from '@/store/Slices/authSlice';
 import toast from 'react-hot-toast';
 
-const SelectCategory = (nextPage) => {
+const SelectCategory = ({ nextPage }) => {
     const dispatch = useDispatch()
-    const [categoryValue,setCategoryValue] = useState('')
-    const categories = [
-        '0-100',
-        '101-500',
-        '501-1000',
-        '1001-1500'
-    ]
+    const [categoryValue, setCategoryValue] = useState('')
+    const categories = ["50-100", "100-200", "200-300", "300-400", "400-500"]
     const submitSchoolCategory = () => {
-        if(categoryValue !== ''){
+        if (categoryValue !== '') {
             dispatch(setSchoolCategory(categoryValue))
             nextPage()
-        }else {
+        } else {
             toast.error("PLEASE SELECT THE CATEGORY")
         }
     }
     return (
         <OnboardingLayout
             leftchildren={
-                <div className='flex flex-col'>
+                <div className='flex flex-col '>
                     <p className='text-[#4472CA] my-5 font-semibold'>3/4</p>
                     <p className="w-[338px] text-[28px] text-[#305196] font-semibold">
                         How many students will use Hyggex?
                     </p>
                     {/* These categories will decide the price tier for the organisation */}
                     <div className="relative w-[343px] mt-4">
-                        <select 
-                            onChange={(e)=>{
+                        <select
+                            onChange={(e) => {
                                 setCategoryValue(e.target.value)
                             }}
                             name="language"
@@ -55,7 +50,7 @@ const SelectCategory = (nextPage) => {
                             <ChevronDown className="text-gray-500" size={20} />
                         </span>
                     </div>
-                    
+
                     <div className='w-full mt-28'>
                         <button onClick={submitSchoolCategory} className='text-base bg-[#1D5AD5] text-white py-3 px-4 rounded-xl'>Continue</button>
                     </div>
@@ -64,7 +59,7 @@ const SelectCategory = (nextPage) => {
             rightchildren={
                 <img src={Students} alt="Students" />
             }
-            percentage={75}
+
         />
     )
 }

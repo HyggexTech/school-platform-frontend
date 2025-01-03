@@ -1,19 +1,20 @@
 import OnboardingLayout from '@/layouts/onboarding'
 import React, { useState } from 'react'
 import School from '@/assets/images/Authentication/Schoolimage.webp'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setSchoolDetails } from '@/store/Slices/authSlice'
 import toast from 'react-hot-toast'
 
-const SchoolDetails = ({nextPage}) => {
+const SchoolDetails = ({ nextPage }) => {
     const dispatch = useDispatch()
-    const [name,setName] = useState('')
-    const [address,setAddress] = useState('')
-    
-    const submitSchoolDetails = ()=>{
-        if(name !=='' && address !== ''){
-            dispatch(setSchoolDetails({name,address}))
+    const [name, setName] = useState('')
+    const [address, setAddress] = useState('')
+  
+    const submitSchoolDetails = () => {
+        if (name !== '' && address !== '') {
+            dispatch(setSchoolDetails({ name, address }))
             nextPage()
+            
         } else {
             toast.error('NAME OR ADDRESS IS MISSING')
         }
@@ -28,12 +29,18 @@ const SchoolDetails = ({nextPage}) => {
                         What’s your school’s name?
                     </p>
                     <input
+                        onChange={(e) => {
+                            setName(e.target.value)
+                        }}
                         className="outline-none border border-gray-300 p-2 my-2 shadow-[3px_3px_4px_2px_rgba(0,0,0,0.03)] placeholder:text-sm"
                         placeholder="Enter school name"
                         type="text"
                     />
                     <p className='mt-4 text-sm text-[#305196] font-medium'>Which city is your school located in?</p>
                     <input
+                        onChange={(e) => {
+                            setAddress(e.target.value)
+                        }}
                         className="outline-none border border-gray-300 p-2 my-2 shadow-[3px_3px_4px_2px_rgba(0,0,0,0.03)] placeholder:text-sm"
                         placeholder="Enter city name"
                         type="text"
@@ -46,7 +53,7 @@ const SchoolDetails = ({nextPage}) => {
             rightchildren={
                 <img src={School} alt="School" />
             }
-            percentage={50}
+           
         />
     )
 }

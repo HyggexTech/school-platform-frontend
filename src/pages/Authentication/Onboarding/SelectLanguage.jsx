@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import OnboardingLayout from '@/layouts/onboarding'
 import Langauges from '@/assets/images/Authentication/langs.png';
 import { ChevronDown } from 'lucide-react';
-import { useDispatch, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLanguage } from '@/store/Slices/authSlice';
 import toast from 'react-hot-toast';
 
-const SelectLanguage = (nextPage) => {
+const SelectLanguage = ({nextPage}) => {
   const dispatch = useDispatch()
   const [langValue,setLangValue] = useState('')
   const languages = [
@@ -36,7 +36,7 @@ const SelectLanguage = (nextPage) => {
   return (
     <OnboardingLayout
       leftchildren={
-        <div className='flex flex-col'>
+        <div className='flex flex-col justify-center h-full'>
           <p className='text-[#4472CA] my-5 font-semibold'>1/4</p>
           <p className="w-[338px] text-[28px] text-[#305196] font-semibold">
             Let’s personalize your experience
@@ -74,7 +74,6 @@ const SelectLanguage = (nextPage) => {
       rightchildren={
         <img src={Langauges} alt="Languages" />
       }
-      percentage={25}
     />
   )
 }
